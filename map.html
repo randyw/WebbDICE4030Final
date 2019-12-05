@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Affordable Rent Calculator</title>
+</head>
+                
+<body>
+    <div style="float:left;max-width: 35%;">
+        <div>
+            <h1>Where is the affordable housing?</h1>
+            <p>The Federal Department of Housing and Urban Development (HUD) considers monthly rent under 30% of a person's income to be affordable.</p>
+            <p>Often, this prohibits lower-income persons from living near areas of greater economic opportunity.</p>
+            <p>So, where is all the affordable housing?</p>
+        <h3>How to use:</h3>
+        <ol>
+            <li>Determine affordable monthly rent amount with Calculator below.</li>
+            <li>Use map menu to choose number of bedrooms needed.</li>
+            <li>Drill down into price ranges to see which locations are available.</li>
+            <li>Click on a location to see its data.</li>
+        </ol>
+        <p>Dollar value labels on map are hourly wage needed to afford selected bedroom level. (Default: 1BR)</p>
+        </div>
+        <div>
+            <h3>Calculator</h3>
+
+        </div>
+        <div>
+                <form action="" id="calcform" onsubmit="return false;">
+                        <fieldset id="group1">
+                            <legend>Select Income Level</legend>
+                            <input type="radio" name="group1" id="ssi" checked>Typical SSI/Disability ($10,000/yr)<br/>
+                            <input type="radio" name="group1" id="poverty">Federal Poverty Line ($12,490/yr)<br/>
+                            <input type="radio" name="group1" id="fedmin">Federal Minimum Wage ($7.25/hr)<br/>
+                            <input type="radio" name="group1" id="wamin">WA State Minimum Wage ($12/hr)<br/>
+                            <input type="radio" name="group1" id="hourly">Hourly Wage: $<input type="text" id="hourlywage" /><br/>
+                            <input type="radio" name="group1" id="monthly">Monthly Wage: $<input type="text" id="monthlywage" /><br/>
+                            <input type="radio" name="group1" id="annual">Annual Wage: $<input type="text" id="annualwage" /><br/>
+                            <button id="submit" onclick="getRent()"> Calculate Affordable Rent </button>
+                            <input type="reset" value="Reset" />
+                        </fieldset>
+                    </form>
+                    
+        </div>
+        <div>
+                <h3>Your affordable monthly rent is: </h3>
+                <h1>
+                        $<span id = "result"></span>
+                </h1>
+        </div>
+    </div>
+    <div style="float:right;min-width:65%">
+        <iframe style="width:100%;height: 100vh;"
+        
+        src="https://www.google.com/maps/d/embed?mid=11EkVTMY6eWzrvf2C8OsU0ySXFK_Fq1gP&hl=en" 
+        >
+        </iframe>
+    </div>
+</body>
+</html>
+
+<script>
+
+    function getRent()
+    {
+        var affordable_rents = new Array();
+        affordable_rents["ssi"] = 250.00;
+        affordable_rents["poverty"] = 312.25;
+        affordable_rents["fedmin"] = 377.00;
+        affordable_rents["wamin"] = 624.00;
+        affordable_rents["hourly"] = document.getElementById('hourlywage').value * 2080 / 12 * 0.30;
+        affordable_rents["monthly"] = document.getElementById('monthlywage').value * 0.30;
+        affordable_rents["annual"] = document.getElementById('annualwage').value / 12 * 0.30;
+
+        var income_options = new Array();
+        income_options.push("ssi")
+        income_options.push("poverty")
+        income_options.push("fedmin")
+        income_options.push("wamin")
+        income_options.push("hourly")
+        income_options.push("monthly")
+        income_options.push("annual")
+
+        var affordableRent = 0;
+        for (var i=0; i < income_options.length; i++)
+        {
+            console.log(affordable_rents[income_options[i]]);
+            if (document.getElementById(income_options[i]).checked)
+            {
+                
+                console.log(income_options[i]);
+                affordableRent = affordable_rents[income_options[i]];
+                console.log(affordableRent)
+                break;
+            }
+
+        }
+
+        document.getElementById('result').innerHTML = + affordableRent;
+    }
+
+</script>
